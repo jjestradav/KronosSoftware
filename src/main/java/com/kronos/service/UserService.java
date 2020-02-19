@@ -34,6 +34,8 @@ public class UserService {
 						rs.getString("DEPARTMENT_NAME")));
 					  
 		  }
+		  statement.close();
+		  connection.close();
 		  if(user==null)
 			  return Optional.empty();
 		  

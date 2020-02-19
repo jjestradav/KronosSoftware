@@ -32,6 +32,7 @@ public class StateService {
 			List<State> result = this.mapRowList(rs);
 
 			statement.close();
+			connection.close();
 			return result;
 
 		} catch (Exception e) {

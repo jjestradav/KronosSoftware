@@ -25,6 +25,7 @@ public class AccordTempUserService {
 			statement.setString(2, acc.getAccNumber());
 			statement.executeUpdate();
 			statement.close();
+			connection.close();
 		
 
 		

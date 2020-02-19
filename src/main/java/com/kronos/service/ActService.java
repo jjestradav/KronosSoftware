@@ -27,6 +27,7 @@ public class ActService {
 			ResultSet rs = statement.executeQuery();
 			boolean isInDb=rs.next();
 			statement.close();
+			connection.close();
 			return isInDb;
 		
 		
@@ -43,7 +44,7 @@ public class ActService {
 			// statement.registerOutParameter(1, new );
 			int aux = statement.executeUpdate();
 			statement.close();
-			
+			connection.close();
 			System.out.println(aux);
 			return true;
 			

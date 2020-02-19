@@ -60,9 +60,10 @@ public class FcmClient {
 
   public void subscribe(String topic, String clientToken) {
     try {
-    	System.out.println("HOLA");
-    	 FirebaseMessaging.getInstance().
-    	 unsubscribeFromTopic(Collections.singletonList(clientToken), topic);
+    	topic=topic.replaceAll("\\s+","");
+    	System.out.println(topic);
+//    	 FirebaseMessaging.getInstance().
+//    	 unsubscribeFromTopic(Collections.singletonList(clientToken), "fire");
       TopicManagementResponse response = FirebaseMessaging.getInstance()
           .subscribeToTopicAsync(Collections.singletonList(clientToken), topic).get();
       System.out

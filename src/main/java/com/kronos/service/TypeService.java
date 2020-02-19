@@ -54,6 +54,7 @@ public class TypeService {
 		 List<Type> result= this.mapRowList(rs);
 		  
 		 statement.close();
+		 connection.close();
 	         return result;
 	         
 	        

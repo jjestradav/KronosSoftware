@@ -27,7 +27,10 @@ public class TempUserService {
 			statement.setString(1, email);
 
 			ResultSet rs = statement.executeQuery();
-			return Optional.of(new TempUser(rs.getString("NAME"), rs.getString("EMAIL")));
+			TempUser us=new TempUser(rs.getString("NAME"), rs.getString("EMAIL"));
+			statement.close();
+			connection.close();
+			return Optional.of(us);
 
 		}
 
@@ -45,7 +48,7 @@ public class TempUserService {
 			statement.setString(2, tmp.getEmail());
 			statement.executeUpdate();
 			statement.close();
-		
+			connection.close();
 
 	
 	}
