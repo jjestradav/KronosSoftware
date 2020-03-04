@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Actas</title>
+<link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/css/default.css}" rel="stylesheet">
+<link th:href="@{/css/menu.css}" rel="stylesheet">
+<!-- <link th:href="@{/css/dataTables.bootstrap4.min.css}" rel="stylesheet"> -->
+<link th:href="@{/css/datatables.min.css}" rel="stylesheet">
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+	rel="stylesheet">
+
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css"
+	rel="stylesheet">
+
+<link
+	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
+
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+	rel="stylesheet">
+</head>
+<body>
+	<header th:insert="fragments/header :: header-prin"> </header>
+	<div class="mt-2 col-md-1">
+		<br> <br> <br>
+	</div>
+	<main>
+		<div class="container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<select class="form-control" id="serchType"
+							onchange="changeSelect(this.value)">
+							<option value="ordinary">Ordinaria</option>
+							<option value="extraordinary">Extraordinaria</option>
+						</select>
+					</div>
+<!-- 					<div class="col-sm-4" id="searchDiv">
+						<input type="text" class="form-control" id="searchText">
+						<select class="form-control" id="selectType"
+							style="visibility: hidden">
+							<option th:each="type:${types}" th:value="${type.id}"
+								th:text="${type.description}"></option>
+						</select>
+					</div> -->
+					<div class="col" id="searchDiv">
+						<button type="button" 
+							class="btn btn-success" id="seacrhButton"
+							onclick="searchAccord()">Buscar</button>
+					</div>
+
+
+				</div>
+			</div>
+			<div class="row">
+				<span style="white-space: pre-line"></span> <br />
+			</div>
+			<div class="container">
+				<div th:if="${msg != null}" class='alert alert-success'
+					th:text="${msg}" role='alert'></div>
+				<div th:if="${msgError != null}" class='alert alert-danger'
+					th:text="${msgError}" role='alert'></div>
+					<div id='titleDiv'>
+					<h3 class='font-italic text-center'>Listado de Actas</h3>
+					</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="table-responsive">
+							<table id="tableAcc"
+								class="table table-striped table-bordered border-info"
+								style="width: 100%">
+								<thead>
+									<tr>
+										<th style="text-align: center">Tipo de Sesión</th>
+										<th style="text-align: center">Número de Oficio</th>
+										<th style="text-align: center">Fecha de Sesión</th>
+									</tr>
+								</thead>
+								<tbody id='accordList'>
+									<tr th:each="acc:${listAccords}">
+										<td th:text="${acc.accNumber}"></td>
+										<td
+											th:text="${#dates.format(acc.incorporatedDate,'dd-MM-yyyy')}"></td>
+										<td th:text="${#dates.format(acc.sessionDate,'dd-MM-yyyy')}"></td>
+										<td th:text="${#dates.format(acc.deadline,'dd-MM-yyyy')}"></td>
+										<td th:text="${acc.type.description}"></td>
+										<th:block th:switch="${acc.state.id}">
+											<td th:case="0" th:text="${acc.state.description}"
+												style="background-color: #00D781"></td>
+											<td th:case="1" th:text="${acc.state.description}"
+												style="background-color: red"></td>
+											<td th:case="2" th:text="${acc.state.description}"
+												style="background-color: #FFE57A"></td>
+										</th:block>
+										<td><a
+											th:href="@{/accords/edit/{id} (id=${acc.accNumber})}"><button
+													type='button' class='btn btn-primary'
+													style='text-align: center'>Editar</button></a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</main>
+
+	<script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
+	<script
+		src="https://www.gstatic.com/firebasejs/5.9.2/firebase-messaging.js"></script>
+	<script th:src="@{/bootstrap/js/jquery.js}"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+	<!-- 	<script th:src="@{/js/dataTables.bootstrap4.min.js}"></script> -->
+	<!-- <script th:src="@{/js/jquery.dataTables.min.js}"></script> -->
+	<script
+		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+	<script th:src="@{/js/listAccord.js}"></script>
+	<script th:src="@{/js/subscription.js}"></script>
+</body>
+</html>

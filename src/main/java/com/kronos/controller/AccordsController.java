@@ -177,7 +177,6 @@ public class AccordsController {
 
 	@GetMapping("/deleteAccord/{accNumber}")
 	public String deleteAccord(@PathVariable("accNumber") String accNumber, RedirectAttributes attributes) {
-
 		try {
 			System.out.println(accNumber);
 			String user = "concejomunicipal@sanpablo.go.cr";
@@ -195,6 +194,26 @@ public class AccordsController {
 		model.addAttribute("accord", accord);
 		return "accord/accordForm";
 	}
+	
+	
+	//Por el momento aqui hasta que se cree el controller del acta
+	@GetMapping("/addRecord")
+	public String createRecord(Accord accord, Model model) {
+
+		model.addAttribute("accord", accord);
+		return "record/addRecord";
+	}
+	//Iagual a la de arriba, acordarse de cambiar
+	@GetMapping("/listR")
+	public String listRecord(Accord accord, Model model) {
+
+		model.addAttribute("accord", accord);
+		return "record/listRecord";
+	}
+	
+	
+	
+	
 
 	//list of all accords
 	@GetMapping("/list")
