@@ -139,7 +139,8 @@
 
 						</div>
 						<div class="col">
-							<th:block
+						<!-- 	
+						<th:block
 								th:if="${(#strings.toString(accord.type.id) == 'A') and (session.roleName == 'Secretaria de Alcaldia') and accord.state.id != 0}">
 								<div class="col-8">
 									<div class="form-group ">
@@ -147,7 +148,7 @@
 										class="form-label"> Nombre del Responsable </label> <input
 										type="text" class="form-control" name="username" id="username"
 										disabled> -->
-										<!-- ${session.roleName == 'Secretaria de Alcaldia'}" -->
+										<!-- ${session.roleName == 'Secretaria de Alcaldia'}" 
 
 
 										<label for="form-control col-6" class="form-label">Departamento
@@ -189,6 +190,7 @@
 								</div>
 
 							</th:block>
+							 -->
 							<div class="col-8"
 								th:if="${(#strings.toString(accord.type.id) != 'A')}">
 								<div class="form-group ">

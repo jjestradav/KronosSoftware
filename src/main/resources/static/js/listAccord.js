@@ -87,31 +87,38 @@ function changeSelect(value) {
 }
 
 function searchAccord() {
+	let titleDiv=document.getElementById('titleh3');
     let parameter = document.getElementById('serchType').value;
     if (parameter !== 'notSelected') {
         switch (parameter) {
             case 'sessionDate':
+            	titleDiv.innerHTML='Acuerdos Por Fecha de Sesión'
                 SearchBySessionDate();
                 break;
 
             case 'incorDate':
+            	titleDiv.innerHTML='Acuerdos Por Fecha de Incorporación'
                 searchByIncorDate();
                 break;
 
 
             case 'sessionType':
+            	titleDiv.innerHTML='Acuerdos Por Tipo de Acuerdo';
                 searchBySessionType();
                 break;
 
             case 'accNumber':
+            	titleDiv.innerHTML='Acuerdos Por Número de Acuerdo';
                 searchByAccNumber();
                 break;
 
             case 'allAccords':
+            	titleDiv.innerHTML='Todos los Acuerdos';
                 searchAllAccords();
                 break;
 
             case 'expiredAccords':
+            	titleDiv.innerHTML='Acuerdos Vencidos';
                 searchExpiredAccords();
                 break;
         }

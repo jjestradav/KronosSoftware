@@ -38,8 +38,8 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers("/push/**","/images/**","/","/push/register","/api/accords/**","/accords/list","/accords/edit/**","/api/accords/uploadPdf/**","/icon.jpg").permitAll()
 				// Todas las demás URLs de la Aplicación requieren autenticación
 				
-				.antMatchers("/accords/addAccord/**").hasAnyAuthority("Concejo Municipal")
-				
+				.antMatchers("/accords/addAccord/**","/accords/editAccord/**").hasAnyAuthority("Concejo Municipal")
+				.antMatchers("/townHall/**").hasAuthority("Secretaria de Alcaldia")
 				.anyRequest().authenticated()
 				
 				// El formulario de Login no requiere autenticacion
