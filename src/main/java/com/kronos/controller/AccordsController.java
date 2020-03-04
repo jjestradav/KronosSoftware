@@ -204,10 +204,7 @@ public class AccordsController {
 		try {
 			if(roleName != null && roleName.equals("Concejo Municipal")) {
 				Date today= new Date();
-				Calendar cal= Calendar.getInstance();
-				cal.add(Calendar.DAY_OF_YEAR, 1);
-				Date limit= cal.getTime();
-				model.addAttribute("listAccords", this.accordRepo.searchByLimitDate(today, limit));
+				model.addAttribute("listAccords", this.accordRepo.todayDeadlineAccors(today));
 				
 			}
 			else {
@@ -256,7 +253,7 @@ public class AccordsController {
 			System.out.println(e.getMessage());
 		}
 		
-		return (roleName.equals("Concejo Municpal")) ? "accord/editAccord": "accord/secretary/AccordView";
+		return (roleName.equals("Concejo Municipal")) ? "accord/editAccord": "accord/secretary/AccordView";
 	}
 
 	
