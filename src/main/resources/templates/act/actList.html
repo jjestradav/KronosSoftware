@@ -22,6 +22,8 @@
 
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
 	rel="stylesheet">
+	
+<link rel= "shortcut icon" th:href="@{/images/log4.ico}" type="image/x-icon"  >
 </head>
 <body>
 	<header th:insert="fragments/header :: header-prin"> </header>
@@ -40,7 +42,7 @@
 							<option value="allActs">Todos las Actas</option>
 							<option value="sessionDate">Fecha de Sesión</option>
 							<option value="sessionType">Tipo de Sesión</option>
-							
+							<option value="deactivatedActs">Actas Desactivadas</option>
 						</select>
 					</div>
 					<div class="col-sm-4" id="searchDiv">

@@ -37,7 +37,6 @@ public class RegistryController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public Mono<Void> register(@PathVariable("token")String token,
 		  @SessionAttribute("username") String username) {
-	  System.out.println(username);
 	  Mono<String> mono= Mono.just(token);
 	  System.out.println(mono);
     return mono.doOnNext(t -> this.fcmClient.subscribe(username, t)).then();
@@ -59,6 +58,7 @@ public class RegistryController {
 	  this.fcmClient.send("SecretariadeAlcaldia", "Acuerdo Agregado", body);
 	  }
 	  catch(Exception e) {
+		  e.printStackTrace();
 		  System.out.println(e.getMessage());
 	  }
 	  

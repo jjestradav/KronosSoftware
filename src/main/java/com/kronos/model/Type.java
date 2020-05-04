@@ -1,30 +1,32 @@
 package com.kronos.model;
 
-import java.util.Collections;
-import java.util.List;
 
 public class Type {
 
-    private char id;
+    private int id;
     private String description;
     
     public Type() {
     	
     }
     
-    public Type(char id) {
+    public Type(int id) {
     	this.id = id;
     }
     
-    public Type(char id, String description) {
+    public Type(String description) {
+    	
+    	this.description=description;
+    }
+    public Type(int id, String description) {
     	this.id = id;
     	this.description = description; 
     }
 
-	public char getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(char id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getDescription() {
@@ -39,14 +41,11 @@ public class Type {
 		return "Type [id=" + id + ", description=" + description + "]";
 	}
 	
-	public static char getNextId(List<Character> list) {
-		
-		Collections.sort(list);
-		char last=list.get(list.size()-1);
-		if(last=='Z')
-			return 'a';
-		
-		return  (char) (last+1);
-
+	public static char getNextId(char id) {
+		System.out.println((char)(id+1));
+		if((id+1)=='a') {
+			System.out.println((char)(id+97));
+			return (char)(id+97);}
+		return  (char) (id+1);
 	}
 }

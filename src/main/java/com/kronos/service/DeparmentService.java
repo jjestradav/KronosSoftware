@@ -36,7 +36,7 @@ public class DeparmentService {
 			return result;
 
 		} catch (Exception e) {
-			System.out.println("\n\n\n\n\n\n\n\nERROR\n\n\n\n\n" + e.getMessage());
+			e.printStackTrace();
 		}
 
 		return null;

@@ -38,6 +38,7 @@ public class UsersRestController {
 
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.valueOf(500), "Ocurrio un Error");
 		}
@@ -52,6 +53,7 @@ public class UsersRestController {
 
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.valueOf(500), "Ocurrio un Error");
 		}

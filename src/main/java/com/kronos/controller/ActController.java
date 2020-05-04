@@ -86,11 +86,11 @@ public class ActController {
 			if (!opt.isPresent())
 				throw new Exception("No se encontro el acuerdo");
 			Act act = opt.get();
-			System.out.println(opt.get().getSessionType());
 			model.addAttribute("act", act);
 			this.oldAct=act;
 			
 		}catch(Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		return "act/editAct";
@@ -99,7 +99,6 @@ public class ActController {
 	@PostMapping("/saveEdit")
 	public String editAct(Act act, Model model) {
 		Act oldAct= this.oldAct;
-		System.out.println(act.getSessionType());
 		if(oldAct.getSessionType()!=act.getSessionType()||oldAct.getActive()!=act.getActive()||oldAct.getPublc()!=act.getPublc()) {
 		try {
 			this.actServiceRepo.updateAct(act);

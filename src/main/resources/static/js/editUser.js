@@ -148,7 +148,7 @@ function comboBoxType(){
 	let username=$("#username");
 	let email=$("#email");
 	
-	if(comboType != 'A'){
+	if(parseInt(comboType,10) !== 1){
 		username.prop("disabled",false)
 		email.prop("disabled",false)
 	}

@@ -48,7 +48,6 @@ public class ActService {
 		int aux = statement.executeUpdate();
 		statement.close();
 		connection.close();
-		System.out.println(aux);
 		return true;
 
 	}
@@ -63,7 +62,8 @@ public class ActService {
 			connection.close();
 			return result;
 		} catch (Exception e) {
-			System.out.println("\n\n\n\n\n\n\n\nERROR\n\n\n\n\n" + e.getMessage());
+			e.printStackTrace();
+			
 		}
 		return null;
 	}
@@ -102,7 +102,7 @@ public class ActService {
 			connection.close();
 			return result;
 		} catch (Exception e) {
-			System.out.println("\n\n\n\n\n\n\n\nERROR\n\n\n\n\n" + e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -130,7 +130,7 @@ public class ActService {
 		while (rs.next()) {
 			act = new Act(rs.getString("SESSIONTYPE"), rs.getDate("SESSIONDATE"), rs.getString("URL"),
 					rs.getBoolean("PUBLIC"), rs.getBoolean("ACTIVE"));
-			System.out.println(act.getSessionType());
+	
 		}
 		statement.close();
 		connection.close();
@@ -151,7 +151,7 @@ public class ActService {
 			connection.close();
 			return result;
 		} catch (SQLException e) {
-			System.out.println("\n\n\n\n\n\n\n\nERROR\n\n\n\n\n" + e.getMessage());
+			e.printStackTrace();
 		}
 		
 		return null;
@@ -168,14 +168,13 @@ public class ActService {
 			connection.close();
 			return result;
 		} catch (SQLException e) {
-			System.out.println("\n\n\n\n\n\n\n\nERROR\n\n\n\n\n" + e.getMessage());
+			e.printStackTrace();
 		}
 		
 		return null;
 	}
 
 	public void updateActPdf(Date sessionDate, String url) throws Exception {
-		System.out.println(sessionDate.toString());
     	Connection connection = jdbcTemplate.getDataSource().getConnection();
         CallableStatement statement = connection.prepareCall("{call updatePdfAct(?,?)}");
         statement.setDate(1, new java.sql.Date(sessionDate.getTime()));
@@ -195,6 +194,22 @@ public class ActService {
 		statement.executeUpdate();
 		statement.close();
 		connection.close();
+	}
+
+	public List<Act> deactivatedActs() {
+		
+		try {
+			Connection connection = jdbcTemplate.getDataSource().getConnection();
+			CallableStatement statement = connection.prepareCall("{call deactivatedActs()}");
+			ResultSet rs = statement.executeQuery();
+			List<Act> result = this.mapRowList1(rs);
+			statement.close();
+			connection.close();
+			return result;
+		} catch (Exception e) {
+			System.out.println("\n\n\n\n\n\n\n\nERROR\n\n\n\n\n" + e.getMessage());
+		}
+		return null;
 	}
 	
 }

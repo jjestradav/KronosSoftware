@@ -15,7 +15,7 @@ $(document).ready(()=>{
 
 )();
 	let type = $("#comboTypes").val();
-	if(type !=='A'){
+	if(parseInt(type,10) !==1){
 		fetch('/api/accords/getResponsablesByAccord/'+name)
 		.then(response=>{
 			console.log(response)
@@ -54,7 +54,8 @@ async function listPdf(accNumber){
 		console.log(accord);
 		let parent=$("#pdfBody");
 		accord.url.forEach(url=>{
-			if(url.approved){
+			let urlState=parseInt(url.isApproved,10);
+			if(urlState===0 || urlState===2){
 			list(parent,url.url,url.finalResponse)
 			}
 		})
@@ -130,7 +131,7 @@ function comboBoxType(){
 	let username=$("#username");
 	let email=$("#email");
 	
-	if(comboType != 'A'){
+	if(parseInt(comboType,10) !== 1){
 		username.prop("disabled",false)
 		email.prop("disabled",false)
 	}
@@ -416,7 +417,7 @@ function downloadPdf(){
 	date.getHours()+':'+date.getMinutes();
 	doc.text(10,70,'Fecha:  '+strDate);
 	doc.setFontType("normal");
-	if(document.getElementById('comboTypes').value=='A'){
+	if(parseInt(document.getElementById('comboTypes').value,10)===1){
 	doc.text(10,80,'El acuerdo '+ document.getElementById('accNumber').value
 			+ ' fue entregado con éxito a la secretaria de la municipalidad \n'
 			+'por medio del sistema.' );

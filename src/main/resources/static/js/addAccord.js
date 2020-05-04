@@ -75,7 +75,7 @@ function changeComboType() {
 	let buttonAdd = document.getElementById('btnAdd');
 	let buttonSubs = document.getElementById('btnSubs');
 	let line = document.getElementById('line');
-	if (combo !== 'A') {
+	if (parseInt(combo,10) !== 1) {
 		textName.value = '';
 		textEmail.value = '';
 		textName.type = 'text';

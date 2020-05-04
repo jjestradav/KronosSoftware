@@ -167,6 +167,7 @@ public class AdministrationController {
 			}
 			userRepo.insertUser(user);
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "/administration/error";
 		}

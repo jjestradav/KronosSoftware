@@ -44,9 +44,9 @@ function changeSelect(value) {
         $("#searchText").datepicker({dateFormat: 'dd-mm-yy'});
         field.value = "";
         button.style.visibility = 'visible';
-        combo.value = 'A';
+        combo.value = 1;
         combo.style.visibility = 'hidden';
-        combo.value = 'A';
+        combo.value = 1;
 
     } else
     if (value === 'accNumber') {
@@ -54,29 +54,29 @@ function changeSelect(value) {
         field.type = 'text';
         $("#searchText").datepicker( "destroy" );
         button.style.visibility = 'visible';
-        combo.value = 'A';
+        combo.value = 1;
         combo.style.visibility = 'hidden';
     } else if (value === 'sessionType') {
         field.value = "";
         field.type = 'hidden';
         button.style.visibility = 'visible';
-        combo.value = 'A';
+        combo.value = 1;
         combo.style.visibility = 'visible';
     } else if (value === 'allAccords') {
         field.value = "";
         field.type = 'hidden';
         button.style.visibility = 'visible';
-        combo.value = 'A';
+        combo.value = 1;
         combo.style.visibility = 'hidden';
     } else if (value === 'expiredAccords') {
         field.value = "";
         field.type = 'hidden';
         button.style.visibility = 'visible';
-        combo.value = 'A';
+        combo.value = 1;
         combo.style.visibility = 'hidden';
     } else {
         field.value = "";
-        combo.value = 'A';
+        combo.value = 1;
         field.type = 'hidden';
         button.style.visibility = 'hidden';
         combo.style.visibility = 'hidden';

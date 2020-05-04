@@ -38,7 +38,7 @@ public class AccordService {
 			statement.setTime(3, java.sql.Time.valueOf(acc.getIncorporatedTime()));
 			statement.setDate(4, new java.sql.Date(acc.getDeadline().getTime()));
 			statement.setDate(5, new java.sql.Date(acc.getSessionDate().getTime()));
-			statement.setString(6, String.valueOf(acc.getType().getId()));
+			statement.setInt(6, acc.getType().getId());
 			statement.setString(7, acc.getObservations());
 			statement.setBoolean(8, acc.isPublished());
 			statement.setBoolean(9, acc.isNotified());
@@ -55,7 +55,6 @@ public class AccordService {
 				statement2.setInt(4, item.getIsApproved());
 				statement2.setBoolean(5, item.isCanDelete());
 				int a = statement2.executeUpdate();
-				System.out.println(a);
 
 				statement2.close();
 
@@ -119,7 +118,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -158,7 +157,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -199,7 +198,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -240,7 +239,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -265,10 +264,10 @@ public class AccordService {
 		return new ArrayList<>(map.values());
 	}
 
-	public List<Accord> searchByType(char type) throws Exception {
+	public List<Accord> searchByType(int type) throws Exception {
 		Connection connection = jdbcTemplate.getDataSource().getConnection();
 		CallableStatement statement = connection.prepareCall("{call searchAccordType(?)}");
-		statement.setString(1, String.valueOf(type));
+		statement.setInt(1, type);
 		ResultSet rs = statement.executeQuery();
 		Map<String, Accord> map = new HashMap();
 
@@ -281,7 +280,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -322,7 +321,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -345,7 +344,6 @@ public class AccordService {
 		statement.close();
 		connection.close();
 		ArrayList<Accord> result = new ArrayList<>(map.values());
-		System.out.println(result);
 		return result;
 
 	}
@@ -366,7 +364,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -407,7 +405,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -543,7 +541,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -573,9 +571,6 @@ public class AccordService {
 		Connection connection = jdbcTemplate.getDataSource().getConnection();
 		CallableStatement statement = connection.prepareCall("{call updatePdf(?, ?, ?)}");
 
-		System.out.println(accNumber);
-		System.out.println(pdf.getURL());
-		System.out.println(pdf.isFinalResponse());
 		statement.setString(1, accNumber);
 		statement.setString(2, pdf.getURL());
 		statement.setBoolean(3, pdf.isFinalResponse());
@@ -629,7 +624,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -669,7 +664,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -709,7 +704,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -748,7 +743,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -790,7 +785,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -821,8 +816,8 @@ public class AccordService {
 		CallableStatement statement = connection.prepareCall("{call pendingAccordsDepartment(?)}");
 		statement.setString(1, String.valueOf(department));
 		ResultSet rs = statement.executeQuery();
-		Map<String, Accord> map = new HashMap();
-
+		Map<String, Accord> map = new HashMap<>();
+			
 		while (rs.next()) {
 
 			String accNumber = rs.getString("ACCNUMBER");
@@ -832,7 +827,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -872,7 +867,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));
@@ -913,7 +908,7 @@ public class AccordService {
 				a.setIncorporatedDate(rs.getDate("INCORDATE"));
 				a.setDeadline(rs.getDate("DEADLINE"));
 				a.setSessionDate(rs.getDate("SESSIONDATE"));
-				a.setType(new Type(rs.getString("TYPE_ID").charAt(0), rs.getString("TYPE_DESC")));
+				a.setType(new Type(rs.getInt("TYPE_ID"), rs.getString("TYPE_DESC")));
 				a.setObservations(rs.getString("OBSERVATIONS"));
 				a.setNotified(rs.getBoolean("NOTIFIED"));
 				a.setPublished(rs.getBoolean("PUBLIC"));

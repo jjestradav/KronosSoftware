@@ -20,10 +20,10 @@ public class ProfileAdminController {
 	@Autowired 
 	private UserService user;
 
-	@GetMapping("/changePassword")
+	@GetMapping("/forgotPassword")
 	public String changePassword( User user, Model model) {
 		//model.addAttribute("user", user);
-		return "profile/changePassword";
+		return "password/forgotPassword";
 		
 	}
 	  		

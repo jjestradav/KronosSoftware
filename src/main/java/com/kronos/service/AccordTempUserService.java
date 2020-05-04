@@ -21,8 +21,7 @@ public class AccordTempUserService {
 		
 			Connection connection = jdbcTemplate.getDataSource().getConnection();
 			CallableStatement statement = connection.prepareCall("{call insertUserAcc(?, ?)}");
-			System.out.println(tmp.getEmail());
-			System.out.println(acc.getAccNumber());
+
 			statement.setString(1, tmp.getEmail());
 			statement.setString(2, acc.getAccNumber());
 			statement.executeUpdate();

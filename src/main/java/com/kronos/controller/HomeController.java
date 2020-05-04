@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
-
 import com.kronos.service.StateService;
 import com.kronos.service.TypeService;
 import com.kronos.service.UserService;
@@ -53,14 +52,6 @@ public class HomeController {
 	@GetMapping("/")
 	public String mostrarHome( HttpSession session) {
 
-		String role=(String)session.getAttribute("roleName");
-		System.out.println(role);
-//		List<State> list= this.stateRepo.findAll();
-//		
-//		for(State state : list) {
-//			System.out.println(state);
-//		}
-		
 			return "redirect:/index";
 		
 			
@@ -123,7 +114,7 @@ public class HomeController {
 			}
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		return "index";

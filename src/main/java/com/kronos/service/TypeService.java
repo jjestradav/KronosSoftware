@@ -30,7 +30,7 @@ public class TypeService {
 		public Type mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Type type = new Type();
 
-			type.setId(rs.getString("ID").charAt(0));
+			type.setId(rs.getInt("ID"));
 			type.setDescription(rs.getString("DESCRIPTION"));
 
 			return type;
@@ -53,7 +53,7 @@ public class TypeService {
 			return result;
 
 		} catch (Exception e) {
-			System.out.println("\n\n\n\n\n\n\n\nERROR\n\n\n\n\n" + e.getMessage());
+			e.printStackTrace();
 		}
 
 		return null;
@@ -65,7 +65,7 @@ public class TypeService {
 		while (rs.next()) {
 			Type t = new Type();
 			t.setDescription(rs.getString("DESCRIPTION"));
-			t.setId(rs.getString("ID").charAt(0));
+			t.setId(rs.getInt("ID"));
 			result.add(t);
 		}
 
@@ -73,7 +73,7 @@ public class TypeService {
 
 	}
 
-	public List<Character> getallTypesId() throws Exception{
+	public List<Integer> getallTypesId() throws Exception{
 
 		Connection connection = null;
 		CallableStatement statement = null;
@@ -83,10 +83,10 @@ public class TypeService {
 			 connection = jdbcTemplate.getDataSource().getConnection();
 			 statement = connection.prepareCall("{call getAllTypesId() }");
 			 rs = statement.executeQuery();
-			 List<Character> result= new ArrayList<>();
+			 List<Integer> result= new ArrayList<>();
 			 
 			 while(rs.next()) 
-				 result.add(rs.getString("ID").charAt(0));
+				 result.add(rs.getInt("ID"));
 			 
 			 return result;
 			 

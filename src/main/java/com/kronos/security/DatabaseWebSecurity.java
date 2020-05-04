@@ -32,30 +32,34 @@ public class DatabaseWebSecurity extends WebSecurityConfigurerAdapter {
 		http 
 
 		.authorizeRequests()
+		
 		 
 				// Los recursos estáticos no requieren autenticación
-				.antMatchers("/push/**","/images/**","/.well-known/**","/bootstrap/**", "/sw.js","/js/**", "/css/**","/push/register","/api/accords/uploadPdf/**","/icon.jpg","icon.jpg").permitAll()
+				.antMatchers("/html/**","/push/**","/images/**","/.well-known/**","/bootstrap/**", "/sw.js","/js/**", "/css/**","/push/register","/api/accords/uploadPdf/**","/icon.jpg","icon.jpg"
+						,"/forgotPassword/**","/api/password/**").permitAll()
 				// Las vistas públicas no requieren autenticación
-				.antMatchers("/push/**","/accords/list/**","/images/**","/","/push/register","/api/accords/**","/api/notifications/**","/accords/edit/**",
-						"/api/accords/uploadPdf/**","/icon.jpg","/api/accords/updateUrl/**",
-						"/api/users/**").permitAll()
+				.antMatchers("/push/**","/forgotPassword/**","/accords/list/**","/images/**","/","/push/register","/api/accords/**","/api/notifications/**","/accords/edit/**",
+						"/api/accords/uploadPdf/**","/icon.jpg","/api/accords/updateUrl/**").permitAll()
 				// Todas las demás URLs de la Aplicación requieren autenticación
 				
 				.antMatchers("/accords/addAccord/**","/accords/editAccord/**").hasAnyAuthority("Concejo Municipal")
 				.antMatchers("/townHall/**").hasAuthority("Secretaria de Alcaldia")
 				.anyRequest().authenticated()
+				//.and()
+				//.csrf().ignoringAntMatchers("/forgotPassword/**","/api/password/**")
 				
+				.and()
 				// El formulario de Login no requiere autenticacion
-				.and().formLogin().loginPage("/login").failureUrl("/login-error")
+				.formLogin().loginPage("/login").failureUrl("/login-error")
+				
 				.permitAll()
 				.and()
 				.exceptionHandling().accessDeniedPage("/forbidden").and()
-				//.and()
-				//.csrf().disable();
+
 			
 		.sessionManagement()
 	    .maximumSessions(1)
-	     .expiredUrl("/logout");
+	     .expiredUrl("/logout").and();
 
 	}
 	@Bean

@@ -8,7 +8,7 @@ constraint PK_STATE primary key (ID)
 );
 
 create table T_TYPE (
-ID char(1), 
+ID int auto_increment, 
 DESCRIPTION varchar(25) NOT NULL,
 constraint PK_TYPE primary key (ID)
 );
@@ -63,7 +63,7 @@ OBSERVATIONS longtext,
 PUBLIC tinyint,
 NOTIFIED tinyint,
 STATE int,
-TYPE_ID char(1),
+TYPE_ID int,
 USER_ID varchar(45),
 constraint PK_ACCORD primary key (INDX),
 constraint FK_SESSIONDATE foreign key (SESSIONDATE) references T_ACT(SESSIONDATE),
@@ -90,7 +90,7 @@ TEMPUSER varchar(45),
 ACCORD varchar(45),
 constraint FK_TEMPUSER1 foreign key (TEMPUSER) references T_TEMPUSER(EMAIL),
 constraint FK_ACCORD1 foreign key (ACCORD) references T_ACCORD(ACCNUMBER),
-constraint UK_TEMPUSER UNIQUE(TEMPUSER)
+constraint PK_T_USERACC PRIMARY KEY(TEMPUSER,ACCORD)
 );
 
 create table T_NOTIFICATION(
@@ -122,6 +122,13 @@ constraint PK_ROLE primary key(USER_ID,ROLE_NAME),
 constraint FK_USER_ROLE foreign key(USER_ID) references T_USER(TEMPUSER),
 constraint FK_ROLE_UR foreign key(ROLE_NAME) references T_ROLE(NAME)
 
+);
+
+create table T_FORGOT_PASSWORD(
+USER_ID varchar(45),
+TOKEN varchar(6),
+DATE_TIME datetime,
+constraint FK_T_FORGOT foreign key (USER_ID) references T_USER(TEMPUSER)
 );
 
 

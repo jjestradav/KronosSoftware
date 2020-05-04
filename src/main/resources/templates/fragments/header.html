@@ -55,6 +55,17 @@
 				
 				</li>
 				
+				<li th:if="${session.roleName != null and (session.roleName=='Concejo Municipal' or session.roleName=='superuser')}"class="nav-item dropdown"><a
+				class="nav-link text-light font-weight-bold px-3 dropdown-toggle"
+				href="#" id="navbardrop" data-toggle="dropdown"> COMISIONES </a>
+				<div class="dropdown-menu"> 
+				<a
+
+							th:if="${session.roleName != null and session.roleName=='Concejo Municipal'}"
+							class="dropdown-item" th:href="@{/commission/addCommission}">Agregar Comisión</a> 
+				</div>
+				</li>
+				
 				<li th:if="${session.roleName != null and session.roleName=='superuser'}" class="nav-item dropdown"><a
 				class="nav-link text-light font-weight-bold px-3 dropdown-toggle"
 				href="#" id="navbardrop" data-toggle="dropdown"> ADMINISTRACIÓN </a>

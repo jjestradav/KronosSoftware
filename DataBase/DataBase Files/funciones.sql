@@ -4,7 +4,7 @@ DELIMITER $$
 USE `KRONOS`$$
 CREATE PROCEDURE insertAccord (IN accNumber VARCHAR(45), IN incorDate DATE, IN incorTime TIME, 
 IN deadLine DATE, IN sessionDate DATE, IN type_id
-CHAR(1), IN observations longtext, IN publics TINYINT(4),
+int, IN observations longtext, IN publics TINYINT(4),
 IN notified TINYINT(4), IN states INT, IN user_id VARCHAR(45))
 BEGIN
 INSERT INTO T_ACCORD (ACCNUMBER, INCORDATE,INCORTIME, 
@@ -65,11 +65,67 @@ commit;
 end$$
 DELIMITER ;
 
+
+
+USE `KRONOS`;
+DROP procedure IF EXISTS insertForgotPassword;
+DELIMITER $$
+USE `KRONOS`$$
+create procedure insertForgotPassword(
+in _user varchar(45), in _token varchar(6), in _datetime datetime)
+begin
+insert into T_FORGOT_PASSWORD (USER_ID, TOKEN, DATE_TIME) values (_user, _token, _datetime);
+commit; 
+end$$
+DELIMITER ;
+
+
+USE `KRONOS`;
+DROP procedure IF EXISTS deleteForgotPassword;
+DELIMITER $$
+USE `KRONOS`$$
+create procedure deleteForgotPassword(
+in _user varchar(45), in _token varchar(6))
+begin
+delete from T_FORGOT_PASSWORD WHERE USER_ID=_user AND TOKEN=_token;
+commit; 
+end$$
+DELIMITER ;
+
+
+USE `KRONOS`;
+DROP procedure IF EXISTS getRecentToken;
+DELIMITER $$
+USE `KRONOS`$$
+create procedure getRecentToken(
+in _user varchar(45))
+begin
+SELECT TOKEN from T_FORGOT_PASSWORD WHERE USER_ID=_user ORDER BY DATE_TIME DESC LIMIT 1;
+end$$
+DELIMITER ;
+
+
+USE `KRONOS`;
+DROP procedure IF EXISTS updatePassword;
+DELIMITER $$
+USE `KRONOS`$$
+create procedure updatePassword(
+in _user varchar(45), in _password varchar(100))
+begin
+UPDATE T_USER SET PASSWORD=_password where TEMPUSER=_user;
+commit;
+end$$
+DELIMITER ;
+
+
+
+
+
 USE `KRONOS`;
 DROP procedure IF EXISTS searchAccordType;
 DELIMITER $$
 USE `KRONOS`$$
-create procedure searchAccordType(in type_id char(1))
+create procedure searchAccordType(in type_id int)
 begin
 select ACCNUMBER, INCORDATE, 
 DEADLINE, SESSIONDATE, TYPE_ID,T_TYPE.DESCRIPTION AS TYPE_DESC, OBSERVATIONS, PUBLIC, NOTIFIED,  STATE,T_STATE.DESCRIPTION AS STATE_DESC,  T_ACCPDF.URL, T_ACCPDF.FINALRESPONSE AS FINALRESPONSE, T_ACCPDF.ISAPPROVED AS ISAPPROVED, T_ACCPDF.CAN_DELETE AS CAN_DELETE from T_ACCORD, T_ACCPDF,T_STATE, T_TYPE where T_ACCORD.ACCNUMBER= T_ACCPDF.ACCORD AND T_ACCORD.STATE=T_STATE.ID AND T_ACCORD.TYPE_ID=T_TYPE.ID AND T_ACCORD.TYPE_ID = type_id;
@@ -842,7 +898,7 @@ USE `KRONOS`$$
 create procedure pendingAccordsDepartment(in _department varchar(1))
 begin
 select ACCNUMBER, INCORDATE, 
-DEADLINE, SESSIONDATE, TYPE_ID,T_TYPE.DESCRIPTION AS TYPE_DESC, OBSERVATIONS, PUBLIC, NOTIFIED,  STATE,T_STATE.DESCRIPTION AS STATE_DESC,  T_ACCPDF.URL , T_ACCPDF.FINALRESPONSE AS FINALRESPONSE, T_ACCPDF.ISAPPROVED AS ISAPPROVED, T_ACCPDF.CAN_DELETE AS CAN_DELETE  from T_ACCORD, T_ACCPDF,T_STATE, T_TYPE where T_ACCORD.ACCNUMBER= T_ACCPDF.ACCORD AND  T_ACCORD.STATE = 2 AND T_ACCORD.STATE=T_STATE.ID AND T_ACCORD.TYPE_ID=T_TYPE.ID AND  T_ACCORD.TYPE_ID= _department;
+DEADLINE, SESSIONDATE, TYPE_ID,T_TYPE.DESCRIPTION AS TYPE_DESC, OBSERVATIONS, PUBLIC, NOTIFIED,  STATE,T_STATE.DESCRIPTION AS STATE_DESC,  T_ACCPDF.URL , T_ACCPDF.FINALRESPONSE AS FINALRESPONSE, T_ACCPDF.ISAPPROVED AS ISAPPROVED, T_ACCPDF.CAN_DELETE AS CAN_DELETE  from T_ACCORD, T_ACCPDF,T_STATE, T_TYPE where T_ACCORD.ACCNUMBER= T_ACCPDF.ACCORD AND T_ACCORD.STATE=T_STATE.ID AND (T_ACCORD.STATE=2 OR T_ACCORD.STATE=3) AND T_ACCORD.TYPE_ID=T_TYPE.ID AND  T_ACCORD.TYPE_ID= _department;
 end$$
 DELIMITER ;
 
@@ -907,7 +963,7 @@ DELIMITER $$
 USE `KRONOS`$$
 create procedure searchAllActs()
 begin 
-select SESSIONTYPE, SESSIONDATE, URL, T_ACT.PUBLIC, ACTIVE from T_ACT;
+select SESSIONTYPE, SESSIONDATE, URL, T_ACT.PUBLIC, ACTIVE from T_ACT where ACTIVE=1;
 end$$
 DELIMITER ;
 
@@ -1011,22 +1067,40 @@ select T_TYPE.ID from T_TYPE order by T_TYPE.ID;
 end$$
 DELIMITER ; 
 
+USE `KRONOS`;
+DROP procedure  IF EXISTS deactivatedActs;
+DELIMITER $$
+USE `KRONOS`$$
+create procedure deactivatedActs()
+begin
+select SESSIONTYPE, SESSIONDATE, URL, T_ACT.PUBLIC, ACTIVE from T_ACT where ACTIVE=0;
+end$$
+DELIMITER ; 
 
+USE `KRONOS`;
+DROP procedure IF EXISTS lastIdInType;
+DELIMITER $$
+USE `KRONOS`$$
+create procedure lastIdInType()
+begin
+select MAX(ID) from T_TYPE;
+end$$
+DELIMITER ;
 
 
 alter table T_ROLE auto_increment = 1;
 alter table T_DEPARTMENT auto_increment = 1;
 
-insert into T_TYPE (ID, DESCRIPTION) values ('A', 'Administración Municipal');
-insert into T_TYPE (ID, DESCRIPTION) values ('B', 'Auditoria Interna');
-insert into T_TYPE (ID, DESCRIPTION) values ('C', 'Lic');
-insert into T_TYPE (ID, DESCRIPTION) values ('D', 'Obras');
-insert into T_TYPE (ID, DESCRIPTION) values ('E', 'Plan Regulador');
-insert into T_TYPE (ID, DESCRIPTION) values ('F', 'Hacienda');
-insert into T_TYPE (ID, DESCRIPTION) values ('G', 'Juridicos');
-insert into T_TYPE (ID, DESCRIPTION) values ('H', 'Sociales');
-insert into T_TYPE (ID, DESCRIPTION) values ('I', 'Ambiente');
-insert into T_TYPE (ID, DESCRIPTION) values ('J', 'Varios');
+insert into T_TYPE (DESCRIPTION) values ('Administración Municipal');
+insert into T_TYPE (DESCRIPTION) values ('Auditoria Interna');
+insert into T_TYPE (DESCRIPTION) values ('Lic');
+insert into T_TYPE (DESCRIPTION) values ('Obras');
+insert into T_TYPE (DESCRIPTION) values ('Plan Regulador');
+insert into T_TYPE (DESCRIPTION) values ('Hacienda');
+insert into T_TYPE (DESCRIPTION) values ('Juridicos');
+insert into T_TYPE (DESCRIPTION) values ('Sociales');
+insert into T_TYPE (DESCRIPTION) values ('Ambiente');
+insert into T_TYPE (DESCRIPTION) values ('Varios');
 
 
 insert into T_STATE (ID, DESCRIPTION)values (0, 'Cumplido');
@@ -1038,7 +1112,6 @@ insert into T_STATE (ID, DESCRIPTION)values (5, 'Vencido');
 
 insert into T_TEMPUSER(NAME,EMAIL) values ('SUPERUSER','superuser@superuser.com');
 insert into T_TEMPUSER(NAME,EMAIL) values ('Concejo Municipal','concejomunicipal@sanpablo.go.cr');
-insert into T_TEMPUSER(NAME,EMAIL) values ('Secretaria de Alcaldia','alcaldia@sanpablo.go.cr');
 insert into T_DEPARTMENT (NAME) values ('SUPERUSER'); # 1
 insert into T_DEPARTMENT (NAME) values ('Concejo Municipal'); #2
 insert into T_DEPARTMENT (NAME) values ('Alcaldia'); #3

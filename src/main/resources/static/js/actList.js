@@ -91,6 +91,11 @@ function searchAct() {
             	titleDiv.innerHTML='Todos las Actas';
                 searchAllActs();
                 break;
+                
+            case 'deactivatedActs':
+            	titleDiv.innerHTML='Actas Desactivadas';
+            	searchDeactivatedActs();
+            	break;
 
         }
     }
@@ -167,6 +172,30 @@ function searchBySessionType() {
 
 function searchAllActs() {
     let _url = "/api/act/allActs";
+    fetch(_url)
+            .then(res => {
+                console.log(res);
+                return res.json();
+            })
+            .then(act => {
+                $('#tableAct').DataTable().clear().destroy();
+                var parent = $("#actList");
+                parent.html("");
+                act.forEach(item => {
+                    list(parent, item);
+                });
+            }).then(() => {
+
+        initTable();
+    })
+
+            .catch(error => {
+                console.log(error);
+            });
+}
+
+function searchDeactivatedActs() {
+    let _url = "/api/act/deactivatedActs";
     fetch(_url)
             .then(res => {
                 console.log(res);

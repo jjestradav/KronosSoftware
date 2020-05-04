@@ -97,7 +97,6 @@ public class AccordsRestController {
 			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String date2 = sdf.format(dateDb);
 			Date db2 = sdf.parse(date2);
-			System.out.println(db2);
 			return this.accordRepo.searchBySessionDate(db2);
 
 		}
@@ -117,7 +116,6 @@ public class AccordsRestController {
 			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String date2 = sdf.format(dateDb);
 			Date db2 = sdf.parse(date2);
-			System.out.println(db2);
 			return this.accordRepo.searchByIncorDate(db2);
 
 		}
@@ -129,7 +127,7 @@ public class AccordsRestController {
 
 	// accords by type
 	@GetMapping("/type/{type}")
-	public List<Accord> searchByType(@PathVariable("type") char type) {
+	public List<Accord> searchByType(@PathVariable("type") int type) {
 		try {
 
 			return this.accordRepo.searchByType(type);
@@ -189,8 +187,7 @@ public class AccordsRestController {
 			Optional<Accord> opt = this.accordRepo.getAccord(accNumber);
 			if (!opt.isPresent())
 				throw new Exception();
-			
-			System.out.println(opt.get());
+
 			return opt.get();
 
 		}
@@ -212,6 +209,7 @@ public class AccordsRestController {
 					.body(resource);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
 		}
@@ -243,7 +241,6 @@ public class AccordsRestController {
 
 		try {
 			
-			System.out.println(roleName);
 			if(roleName.equals("Secretaria de Alcaldia")) {
 				
 				return ResponseEntity.ok().build();
@@ -253,12 +250,10 @@ public class AccordsRestController {
 			List<String> responsables = this.notiRepo.getResponsablesUserName(accNumber);
 			// System.out.println(accNumber);
 			Optional<Accord> optAcc = this.accordRepo.getAccord(accNumber);
-			System.out.println(optAcc.get());
 			if (!optAcc.isPresent())
 				throw new Exception();
 
 			Accord acc = optAcc.get();
-			System.out.println("final response" + finalResponse);
 			if (finalResponse != null && !finalResponse.isEmpty()) {
 				Pdf pdf = new Pdf(uploadFolder + finalResponse, true);
 				// Verify if any of the pdf is the final response
@@ -342,6 +337,7 @@ public class AccordsRestController {
 			return ResponseEntity.ok(acc);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
 		}
@@ -354,6 +350,7 @@ public class AccordsRestController {
 		try {
 			return this.accordRepo.getAccordsSecretary();
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
 		}
@@ -376,6 +373,7 @@ public class AccordsRestController {
 		try {
 			return this.accordRepo.alreadyAssignedAccords();
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
 		}

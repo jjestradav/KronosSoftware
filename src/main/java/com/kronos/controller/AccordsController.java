@@ -177,7 +177,9 @@ public class AccordsController {
 							accord.getAccNumber()+ " con fecha límite de "+ format.format(accord.getDeadline())+".\n"
 									+ "Se adjunta el pdf del oficio", url);
 						}
+
 					}
+
 					
 				}
 
@@ -185,7 +187,6 @@ public class AccordsController {
 			User user = new User();
 			user.setTempUser(new TempUser("concejomunicipal@sanpablo.go.cr"));
 			accord.setUser(user);
-			System.out.println(accord);
 			this.accordRepo.insertAccord(accord);
 
 			if (accord.getType().getId() != Accord.ADMIN_TYPE) {
@@ -222,7 +223,6 @@ public class AccordsController {
 	public String deleteAccord(@PathVariable("accNumber") String accNumber, RedirectAttributes attributes) {
 
 		try {
-			System.out.println(accNumber);
 			String user = "concejomunicipal@sanpablo.go.cr";
 			//this also delete the pdfs in the database and the accord reference in other tables
 			this.accordRepo.deleteAccord(accNumber, user);
@@ -259,6 +259,7 @@ public class AccordsController {
 			}
 		} catch (Exception e) {
 
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 
@@ -278,6 +279,7 @@ public class AccordsController {
 			
 		} catch (Exception e) {
 
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		return "accord/listAccordDepartment";
@@ -301,7 +303,6 @@ public class AccordsController {
 				throw new Exception("No se encontro el acuerdo");
 
 			Accord acc = opt.get();
-			System.out.println(acc.getDeadline());
 			model.addAttribute("accord", acc);
 			//auxiliar variable
 			this.oldAccord=acc;
@@ -311,6 +312,7 @@ public class AccordsController {
 		}
 
 		catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		
@@ -369,19 +371,16 @@ public class AccordsController {
 			else {
 			Accord oldAccord= this.oldAccord;
 			
-			System.out.println("Viejo: "+ oldAccord);
 
 			if (acc.getType().getId() != Accord.ADMIN_TYPE && oldAccord.getType().getId() == Accord.ADMIN_TYPE) {
 
 				if (!email.isEmpty() && !username.isEmpty()) {
-					System.out.println(email);
-					System.out.println(username);
 					this.tUserAccRepo.insertAccord_TempUser(acc, new TempUser(username,email));
 				}
 				
 			}
 			else {
-				System.out.println("");
+				System.out.println(" TO DO");
 				//if temp user is in DB
 				//insert in DB if not
 				//update T_USERACC
@@ -397,8 +396,6 @@ public class AccordsController {
 				}
 			}
 			acc.setUser(user);
-			System.out.println(user);
-			System.out.println("Nuevo: "+ acc);
 			this.accordRepo.updateAccord(acc);
 			if(roleName != null && roleName.equals("Secretaria de Alcaldia")) {
 				String body="El acuerdo "+acc.getAccNumber()+" ha sido editado\n";
@@ -408,6 +405,7 @@ public class AccordsController {
 			attributes.addFlashAttribute("msg", "Acuerdo Editado Correctamente");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			attributes.addFlashAttribute("msgError", "Ocurrio un error al editar");
 		}
