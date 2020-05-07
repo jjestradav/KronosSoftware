@@ -3,6 +3,9 @@ package com.kronos.controller;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,118 +28,116 @@ import com.kronos.util.Util;
 @RestController
 @RequestMapping("/api/password")
 public class PasswordRestController {
-	
-	
-	private final String  baseUrl="http://localhost:8080/forgotPassword/reset?username=";
+
+	//private final String baseUrl = "http://localhost:8080/forgotPassword/reset?username=";
 	@Autowired
 	private UserService usersRepo;
-	
+
 	@Autowired
 	private ForgotPasswordService passwordRepo;
 
-	
 	@Autowired
 	private EmailServiceImpl email;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-	
+
+	@Autowired
+	private ServletContext servletContext;
+
 	@GetMapping("/forgot/{username}")
-	public  ResponseEntity forgotPassword(@PathVariable("username") String user) {
-		
-		Optional<User> dbUser=null;
+	public ResponseEntity forgotPassword(@PathVariable("username") String user, HttpServletRequest request) {
+		Optional<User> dbUser = null;
 		try {
-			
-			dbUser= usersRepo.getUserByEmail(user);
-			
-		
-		}
-		catch(Exception e) {
+
+			dbUser = usersRepo.getUserByEmail(user);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.valueOf(500), "Internal Server Error");
 		}
-		
-		if(dbUser==null)
+
+		if (dbUser == null)
 			throw new ResponseStatusException(HttpStatus.valueOf(500), "Internal Server Error");
-			
-		if(!dbUser.isPresent()) 
+
+		if (!dbUser.isPresent())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no Encontrado");
-		
+
 		try {
-			String token= Util.getRandomToken();
-			LocalDateTime datetime= LocalDateTime.now();
+			String baseUrl = String.format("%s://%s:%d/forgotPassword/reset?username=",request.getScheme(), 
+					 request.getServerName(), request.getServerPort());
+			String token = Util.getRandomToken();
+			LocalDateTime datetime = LocalDateTime.now();
 			this.passwordRepo.insertForgotPassword(user, token, datetime);
-			String url=baseUrl+user+"&token="+token;
-			String message="Hola "+user+"!\n"+
-			"Hemos recibido una solicitud de restablecimiento de contraseña. \n"+
-			"Por favor ingrese al siguiente link "+url+"\n";
-			
+			String url = baseUrl + user + "&token=" + token;
+			String message = "<h2 style='color:black'>Hola " + user + "!</h2>"
+					+ "<h3 style='color:black'>Hemos recibido una solicitud de restablecimiento de contraseña para el sistema Kronos. \n"
+					+ "Por favor ingrese al siguiente <b><a href='"+url+"'>link</a></b></h3>";
+
 			email.sendSimpleMail(user, "Restablecer Contraseña del Sistema Kronos", message);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.valueOf(500), "Internal Server Error");
 		}
-		
-		
-		
-		
-	
-		
+
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@GetMapping("/verify/{username}/{token}")
-	public  ResponseEntity verify(@PathVariable("username") String user,
-			@PathVariable("token") String token) {
-		Optional<String> dbToken=null;
+	public ResponseEntity verify(@PathVariable("username") String user, @PathVariable("token") String token) {
+		Optional<String> dbToken = null;
 		try {
-			dbToken=this.passwordRepo.getToken(user);
-			
-		}
-		catch(Exception e) {
+			dbToken = this.passwordRepo.getToken(user);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.valueOf(500), "Internal Server Error");
 		}
-		if(dbToken==null) 
-			throw new ResponseStatusException(HttpStatus.valueOf(500), "Internal Server Error");
-		
-		if(!dbToken.isPresent())
+		if (dbToken == null) {
+			try {
+
+				this.passwordRepo.deleteForgotPassword(user, token);
+
+			} catch (Exception e) {
+
+				throw new ResponseStatusException(HttpStatus.valueOf(500), "Internal Server Error");
+			}
+			throw new ResponseStatusException(HttpStatus.valueOf(410), "Token ha expirado");
+		}
+
+		if (!dbToken.isPresent())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no Encontrado");
-		
-		String strToken=dbToken.get();
-		
-			if(!strToken.equals(token))
-				throw new ResponseStatusException(HttpStatus.valueOf(403), "Token no coincide");
-		
+
+		String strToken = dbToken.get();
+
+		if (!strToken.equals(token))
+			throw new ResponseStatusException(HttpStatus.valueOf(403), "Token no coincide");
+
 		return ResponseEntity.ok().build();
-		
+
 	}
-	
-	
+
 	@PostMapping("/reset")
-	public  ResponseEntity reset( @RequestBody UserDto userDto) {
-		
+	public ResponseEntity reset(@RequestBody UserDto userDto) {
+
 		try {
-			
-			String encodedPassword=this.passwordEncoder.encode(userDto.getPassword());
+
+			String encodedPassword = this.passwordEncoder.encode(userDto.getPassword());
 			this.usersRepo.updatePassword(userDto.getUsername(), encodedPassword);
 			this.passwordRepo.deleteForgotPassword(userDto.getUsername(), userDto.getToken());
 			return ResponseEntity.ok().build();
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.valueOf(500), "Internal Server Error");
 		}
-		
-			
 
-			}
-	
+	}
+
 	/*
-	 * insert into T_USER (TEMPUSER,PASSWORD,DEPARTMENT,STATUS) values ('jjestradav@gmail.com','$2a$10$iCDiliiLJjGNB93sNBc.be6suYV/B.2KeklGnEnuRsDzKC2l79bV2',2,1);
-insert into T_TEMPUSER(NAME,EMAIL) values ('Secretaria de Alcaldia','alcaldia@sanpablo.go.cr');
-	 * */
-	
+	 * insert into T_USER (TEMPUSER,PASSWORD,DEPARTMENT,STATUS) values
+	 * ('jjestradav@gmail.com','$2a$10$iCDiliiLJjGNB93sNBc.be6suYV/B.
+	 * 2KeklGnEnuRsDzKC2l79bV2',2,1); insert into T_TEMPUSER(NAME,EMAIL) values
+	 * ('Secretaria de Alcaldia','alcaldia@sanpablo.go.cr');
+	 */
+
 }

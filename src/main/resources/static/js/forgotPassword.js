@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	document.getElementById('username').value=username;
 	document.getElementById('username').readOnly=true;
 	const token = urlParams.get('token');
-	verifyToken(username,token);
+	//verifyToken(username,token);
 	
 	
 });
@@ -33,10 +33,18 @@ function verifyToken(username,token){
 				bootbox.alert("Error interno! Por favor intente más tarde");
 		}
 			else if(response.status===403){
-				bootbox.alert("Error interno! El token no coincide o ya expiró");
+				bootbox.alert("Error interno! El token no coincide");
 			}
+				
+				else if(response.status===410){
+					bootbox.alert("Error! El tiempo de la solicitud ha expirado.\n " +
+							"Por favor vuelva a solicitar el token al correo")
+				}
+			
 		
 		document.getElementById('subBtn').disabled='true';
+		document.getElementById('confirm_password').disabled='true';
+		document.getElementById('password').disabled='true';
 		
 		
 	})
@@ -59,20 +67,21 @@ if(password !== confirmPass)
 	bootbox.alert("Error! Las contraseñas no coinciden");
 
 
-else	{
+else {
 
-	let csrfToken=document.getElementById('token').value;
-console.log(csrfToken);
+const csrfToken=document.getElementById('token').value;
 const headers = new Headers({
 	'Content-Type': 'application/json',
     'X-CSRF-TOKEN': csrfToken
 });
-let userObj={};
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get('token');
-userObj.username=username;
-userObj.password=password;
-userObj.token=token;
+let userObj={
+		
+username:username,
+password:password,
+token:token	
+};
 fetch('/api/password/reset',{
 	method:'post',
 	headers,

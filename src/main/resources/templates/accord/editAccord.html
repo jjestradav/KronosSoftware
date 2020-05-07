@@ -17,7 +17,8 @@
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"
 	rel="stylesheet">
 
-<link rel= "shortcut icon" th:href="@{/images/log4.ico}" type="image/x-icon"  >
+<link rel="shortcut icon" th:href="@{/images/log4.ico}"
+	type="image/x-icon">
 </head>
 <body>
 	<header th:insert="fragments/header :: header-prin"> </header>
@@ -101,11 +102,9 @@
 						</div>
 						<div class="col">
 							<div class="col-8">
-								<label for="form-control col-6" class="form-label"> Tipo
-									de acuerdo: </label> <select
-									th:readonly="${session.roleName != 'Concejo Municipal'}"
-									th:field=*{type.id} class="form-control" id="comboTypes"
-									name="type">
+								<label for="comboTypes" class="form-label"> Tipo de
+									acuerdo: </label> <select th:field=*{type.id} class="form-control"
+									id="comboTypes" name="type" readonly>
 									<option th:each="type:${types}" th:value="${type.id}"
 										th:text="${type.description}"></option>
 								</select>
@@ -191,26 +190,39 @@
 
 							</th:block>
 							 -->
-							<div class="col" id="divTempUsers" style="visibility: hidden">
-								<div class="border-bottom">
-									<div class="overflow-auto" id="responsable"
-										style="height: 200px;">
-										<div class="form-group" id="nameR">
-											<label id="labelName" for="form-control col-9"
-												class="form-label"> Nombre del Responsable </label> <input
-												type="text" class="form-control" name="usernameResponsable"
-												id="username">
-										</div>
 
-										<div class="form-group" id="emailR">
-											<label id="labelEmail" for="form-control col-9"
-												class="form-label"> Correo Electronico del
-												Responsable </label> <input type="text" class="form-control"
-												name="emailResponsable" id="email">
+
+							<div class="col" id="divTempUsers">
+
+								<th:block th:if="${accord.type.id == 1}">
+									<label for="comprobante">Comprobante</label>
+									<br>
+									<a href="javascript:downloadPdf()"><button id="comprobante" type="button"
+											class="btn btn-info">Generar Comprobante</button></a>
+								</th:block>
+
+
+								<th:block th:if="${accord.type.id != 1}">
+									<div class="border-bottom">
+										<div class="overflow-auto" id="responsable"
+											style="height: 200px;">
+											<div class="form-group" id="nameR">
+												<label id="labelName" for="form-control col-9"
+													class="form-label"> Nombre del Responsable </label> <input
+													type="text" class="form-control" name="usernameResponsable"
+													id="username">
+											</div>
+
+											<div class="form-group" id="emailR">
+												<label id="labelEmail" for="form-control col-9"
+													class="form-label"> Correo Electronico del
+													Responsable </label> <input type="text" class="form-control"
+													name="emailResponsable" id="email">
+											</div>
+											<div class="border-bottom border-primary" id="line"></div>
 										</div>
-										<div class="border-bottom border-primary" id="line"></div>
 									</div>
-								</div>
+									<th:block>
 							</div>
 						</div>
 
@@ -230,14 +242,23 @@
 
 							</div>
 						</div>
-							<div class="col-2"></div>
-						<div class="col-4">
-						<br>
-						<br>
-						<a href="javascript:downloadPdf()"><button type="button" class="btn btn-info">Generar Comprobante</button></a>
+						<div class="col-2"></div>
+						<div class="col-4" th:if="${accord.type.id !=1}">
 						
+								<label for="comprobante">Comprobante</label>
+									<br>
+									<a href="javascript:downloadPdf()"><button id="comprobante" type="button"
+											class="btn btn-info">Generar Comprobante</button></a>
 						</div>
-<!-- 						<div class="col-sm-4"
+	
+						<div class="col-2">
+					<br><br>
+							<label class="checkbox-inline" > 
+							<input type="checkbox" id="publicAccord" name="publicAccord" > Publicar
+							</label>
+					</div>
+						
+						<!-- 						<div class="col-sm-4"
 							th:if="${(#strings.toString(accord.type.id) == 'A') and (session.roleName == 'Secretaria de Alcaldia') and accord.state.id != 0}">
 							<label id="labelEmail" for="form-control col-6"
 								class="form-label"> Usuarios Responsables </label>
@@ -254,8 +275,6 @@
 
 								</tbody>
 							</table>
-
-						</div> -->
 					</div>
 					<th:block>
 						<div class="row">
@@ -392,8 +411,8 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
 		integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
 		crossorigin="anonymous"></script>
-		
-		<script th:src="@{/js/html2canvas.min.js}"></script>
+
+	<script th:src="@{/js/html2canvas.min.js}"></script>
 	<script th:src="@{/js/editAccord.js}"></script>
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>

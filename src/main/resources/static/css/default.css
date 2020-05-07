@@ -3,8 +3,16 @@
     --kronosDark: #0d0d0d;
     --kronosGreen: #667306;
     --kronosCyan: #6BCCF2; 
-    --kronosGray: #BBC9B4;
+    --kronosGray: #BBC9D4;
 
+}
+
+
+@font-face{
+    font-family: fuente_1;
+    font-style: normal;
+    font-weight: normal;
+    src: url(Arial.ttf);
 }
 
 
@@ -80,7 +88,8 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
-    background: #BBC9D4 !important;
+    background: #FFFFFF !important;
+    font-family: fuente_1;
 }
 .user_card {
     height: 400px;

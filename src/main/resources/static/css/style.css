@@ -1,3 +1,12 @@
+
+@font-face{
+    font-family: fuente_1;
+    font-style: normal;
+    font-weight: normal;
+    src: url(Arial.ttf);
+}
+
+
 *{
 	padding: 0;
 	margin: 0;
@@ -5,8 +14,9 @@
 }
 
 body{
-    font-family: 'Poppins', sans-serif;
+    font-family: fuente_1;
     overflow: hidden;
+    
 }
 
 .wave{
@@ -103,7 +113,7 @@ form{
 	bottom: -2px;
 	width: 0%;
 	height: 2px;
-	background-color: #667306;
+	background-color: #0d0d0d;
 	transition: .4s;
 }
 
@@ -125,7 +135,7 @@ form{
 }
 
 .input-div.focus > .i > i{
-	color: #BBC9B4;
+	color: #6BCCF2;
 }
 
 .input-div > div > input{
@@ -140,7 +150,7 @@ form{
 	padding: 0.5rem 0.7rem;
 	font-size: 1.2rem;
 	color: #555;
-	font-family: 'poppins', sans-serif;
+	font-family: fuente_1; 
 }
 
 .input-div.pass{
@@ -167,7 +177,7 @@ a:hover{
 	border-radius: 25px;
 	outline: none;
 	border: none;
-	background-image: linear-gradient(to right, #BBC9B4, #38d39f,#6BCCF2);
+	background-image: linear-gradient(to right, #BBC9D4, #96DDF8,#6BCCF2);
 	background-size: 200%;
 	font-size: 1.2rem;
 	color: #fff;

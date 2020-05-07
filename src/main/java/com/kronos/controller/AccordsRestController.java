@@ -409,6 +409,8 @@ public class AccordsRestController {
 					}
 
 				}
+				String body= "Ha recibido una nueva respuesta por verificar para el acuerdo "+accNumber;
+				this.pushService.send("alcaldia@sanpablo.go.cr","Respuesta por verificar",body);
 				return ResponseEntity.ok(accNumber);
 			}
 			else
@@ -427,6 +429,24 @@ public class AccordsRestController {
 		try {
 			String filePath=this.uploadFolder+url;
 			this.accordRepo.updatePdfState(accNumber, filePath, value);
+			
+			List<String> responsables=this.notiRepo.getResponsablesUserName(accNumber);
+			
+			if(value==2) {
+				
+				String body= "Ha recibido una nueva respuesta para el acuerdo "+accNumber;
+				this.pushService.send("concejomunicipal@sanpablo.go.cr","Respuesta Recibida",body);
+			}
+			
+			
+			String status=(value==2)?"Aprobada": "Rechazada";
+			String resBody="La respuesta para el acuerdo "+accNumber+ " ha sido"+status; 
+			
+			
+				for(String us :responsables) 
+					this.pushService.send(us, "Respuesta "+status,resBody);
+				
+			
 			return ResponseEntity.ok().build();
 		}
 		catch(Exception e) {

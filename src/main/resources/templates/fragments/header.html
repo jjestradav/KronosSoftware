@@ -20,18 +20,18 @@
 			<li th:if="${session.roleName != null and (session.roleName=='Concejo Municipal')}"class="nav-item"><a
 				class="nav-link text-light font-weight-bold px-3" th:href="@{/}">GESTOR
 					DE ACUERDOS</a></li>
-			<li class="nav-item dropdown"><a
+			<li sec:authorize="!isAnonymous()" class="nav-item dropdown"><a
 				class="nav-link text-light font-weight-bold px-3 dropdown-toggle"
 				href="#" id="navbardrop" data-toggle="dropdown"> ACUERDOS </a>
 				<div class="dropdown-menu">
 					<a th:if="${session.roleName != null and (session.roleName=='Concejo Municipal' or session.roleName=='superuser') }" class="dropdown-item" th:href="@{/accords/addAccord}">Agregar
 						Acuerdo</a> 
 						<a th:if="${session.roleName != null and (session.roleName=='Concejo Municipal' or session.roleName=='superuser') }"class="dropdown-item" th:href="@{/accords/list}">Lista
-						de Acuerdo</a> 
+						de Acuerdos</a> 
 						
 						<a th:if="${session.roleName != null and (session.roleName=='Secretaria de Alcaldia' or session.roleName=='superuser') }"class="dropdown-item" th:href="@{/townHall/list}">Lista
-						de Acuerdo</a> 
-						<a class="dropdown-item" th:href="@{/accords/listDepart}">Lista
+						de Acuerdos</a> 
+						<a th:if="${session.roleName != null and (session.roleName=='Concejo Municipal' or session.roleName=='superuser') }" class="dropdown-item" th:href="@{/accords/listDepart}">Lista
 						de Acuerdo por Departamentos</a>
 				</div></li>
 

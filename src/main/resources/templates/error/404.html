@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Error de Autenticación</title>
+<link th:href="@{/css/popup.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+<link rel= "shortcut icon" th:href="@{/images/log4.ico}" type="image/x-icon"  >
+</head>
+<body style="background-color:#31c7e8">
+	<p>
+		<a id="AcPoup" href="#popup"></a>
+	</p>
+	<div id="popup" class="overlay">
+		<div id="popupBody">
+			<h2>ERROR 404</h2>
+			<a id="cerrar" th:href="@{/}">&times;</a>
+			<div class="popupContent">
+				<p>La página a la que desea accersar no existe.</p>
+			</div>
+		</div>
+	</div>
+	<script th:src="@{/bootstrap/js/jquery.js}"></script>
+	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+	<script>
+document.addEventListener('DOMContentLoaded',(event)=>{
+   document.getElementById('AcPoup').click();
+});
+</script>
+
+</body>
+
+</html>

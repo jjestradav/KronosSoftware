@@ -4,9 +4,10 @@
 
 function forgot(){
 	let username=document.getElementById('email').value;
-	
-	fetch('api/password/forgot/'+username)
+	console.log(username);
+	fetch('/api/password/forgot/'+username)
 	.then(response=>{
+		console.log(response);
 		if(response.status===500)
 			bootbox.alert("Error Interno. Por favor intente más tarde");
 		else

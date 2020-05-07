@@ -4,6 +4,7 @@
 globalAccord=null;
 
 $(document).ready(()=>{
+	$("#comboTypes").css("pointer-events","none");
 	initusersTable();
 	let name = $("#accNumber").val();
 	(async ()=>{

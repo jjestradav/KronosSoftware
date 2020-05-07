@@ -8,7 +8,8 @@
 <link th:href="@{/css/menu.css}" rel="stylesheet">
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
 	rel="stylesheet">
-<link rel= "shortcut icon" th:href="@{/images/log4.ico}" type="image/x-icon"  >
+<link rel="shortcut icon" th:href="@{/images/log4.ico}"
+	type="image/x-icon">
 </head>
 <body>
 	<header th:insert="fragments/header :: header-prin"> </header>
@@ -32,8 +33,7 @@
 			</div>
 			<div class="container" id="container"
 				style="border-radius: 1px 50px 50px 50px; border: solid #003366">
-				<form th:action="@{/administration/saveUser}" method="POST"
-					th:object="${userModel}" enctype="multipart/form-data"
+				<form th:object="${userModel}" enctype="multipart/form-data"
 					id="user_form">
 					<div class="border-bottom">
 						<div class="row">
@@ -43,13 +43,14 @@
 									class="form-control" th:field="*{tempUser.name}" name="name"
 									id="name" required>
 							</div>
-							<div class="col-2">
-							</div>
+							<div class="col-2"></div>
 
 							<div class="col-4">
 								<label for="form-control col-6" class="form-label">
-									Departamento: </label> <select th:readonly="${session.roleName != null and session.roleName != 'superuser'}"th:field=*{department.id}
-									class="form-control" id="comboDepartments" name="department"
+									Departamento: </label> <select
+									th:readonly="${session.roleName != null and session.roleName != 'superuser'}"
+									th:field=*{department.id} class="form-control"
+									id="comboDepartments" name="department"
 									onchange='javascript:putVisible()'>
 									<option th:each="department:${departments}"
 										th:value="${department.id}" th:text="${department.name}"></option>
@@ -58,41 +59,42 @@
 						</div>
 						<div class="row">
 							<div class="col-4">
-								<br><br><br>
+								<br> <br> <br>
 								<div>
 									<div class="form-group">
 										<label for="email">Correo electrónico/Usuario</label> <input
-											th:readonly="true==true" type="email" class="form-control" id="email"
-											th:field="*{tempUser.email}" name="email"
+											th:readonly="true==true" type="email" class="form-control"
+											id="email" th:field="*{tempUser.email}" name="email"
 											aria-describedby="emailHelp" placeholder="Enter email"
 											required>
 									</div>
 
 
 								</div>
-								
-						
-							
+
+
+
 							</div>
-							
+
 							<div class="col-2"></div>
 							<div class="col-4">
-								<br><br><br>
-								<label id="labelName" for="form-control col-9"
-									class="form-label">Contraseña</label> 
-									<br>
-									<a th:href="@{/administration/resetPassword}"><button class="btn btn-info " >Restablecer Contraseña</button>
-									</a>
+								<br> <br> <br> <label id="labelName"
+									for="form-control col-9" class="form-label">Contraseña</label>
+								<br>
+								<button type="button" class="btn btn-primary"
+									onclick="forgot()">Restablecer
+									Contraseña</button>
+
 							</div>
 						</div>
+
 						<div class="border-bottom">
 							<div class="form-group">
 
 								<div class="row">
 									<div class="col-4">
 
-										<br>
-										<br>
+										<br> <br>
 
 									</div>
 
@@ -109,12 +111,12 @@
 						</div>
 					</div>
 					<div class="form-group">
-					<br>
+						<br>
 						<div class="row">
-						<div class="col-3"></div>
+							<div class="col-3"></div>
 							<div class="col-4">
-								<button type="submit" class="btn btn-outline-success"
-									id="okButton" onclick='javascript:submit()'>Guardar Cambios</button>
+								<button type="button" class="btn btn-outline-success"
+									id="okButton">Guardar Cambios</button>
 							</div>
 							<div class="col-4">
 								<button type="button" class="btn btn-outline-danger"
@@ -122,6 +124,9 @@
 							</div>
 						</div>
 					</div>
+
+
+
 				</form>
 			</div>
 		</div>
@@ -132,6 +137,7 @@
 	<script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
-		<script th:src="@{/js/viewUser.js}"></script>
+	<script th:src="@{/js/viewUser.js}"></script>
+		<script th:src="@{/js/login.js}"></script>
 </body>
 </html>
