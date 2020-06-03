@@ -34,7 +34,7 @@
 				style="border-radius: 1px 50px 50px 50px; border: solid #003366">
 				<form th:action="@{/accords/saveAccord}" method="POST"
 					th:object="${accord}" enctype="multipart/form-data" id="form1"
-					onSubmit='return validationDeadLine()'>
+					onSubmit='return validationAccord()'>
 					<div class="border-bottom">
 						<div class="row">
 							<div class="col-3 ">
@@ -174,12 +174,12 @@
 										cols="40" name="observations" id="observations"
 										style="resize: none"></textarea>
 								</div>
-								<div class="col-3">
+								<!-- <div class="col-3">
 									<label class="checkbox-inline"> 
 									<input type="checkbox" th:field="*{published}"
 										id="publicAccord" name="publicAccord"> Publicar
 									</label>
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<div class="col">
