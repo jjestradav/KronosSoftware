@@ -98,8 +98,10 @@
 							<div class="row">
 
 								<label for="form-control" class="form-label">Usuario
-									Responsable </label> <select class="form-control" id="selectUser"
-									name="selectUser" onchange="changeSelectUser(this.value)">
+								
+									Responsable </label> 
+									<select class="form-control" id="selectUser"
+									name="selectUser" onchange="changeSelectUser(this.value)" >
 									<option value="nullOpt">Seleccione un Usuario</option>
 									<option th:each="user:${users}"
 										th:value="${user.user.tempUser.email}"
@@ -181,9 +183,11 @@
 
 						<div class="col-3"></div>
 						<div class="col-4">
+							<th:block th:if="${accord.state.id ==2 or accord.state.id ==3}"> 
 						<button type="button" onclick="submitFormEdit()"
 									class="btn btn-outline-success" id="okButton">Guardar
 									Cambios</button>
+									</th:block>
 
 						</div>
 

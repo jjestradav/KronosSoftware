@@ -15,7 +15,7 @@ $(document).ready(()=>{
 
 )();
 	
-	fetch('/api/notifications/getResponsables/'+name).
+	fetch('/api/notifications/getResponsablesDep/'+name).
 	then(response=>{
 		console.log(response);
 		if(response.status !== 200)
@@ -23,6 +23,7 @@ $(document).ready(()=>{
 		return response.json();
 	})
 	.then(resp=>{
+		console.log(resp);
 		if(resp.length>0){
 			//document.getElementById('selectDepartment').disabled=true;
 			//document.getElementById('okButton').style.visibility='hidden';
@@ -395,8 +396,8 @@ function listUser(parent, item) {
 
     var tr = $("<tr/>");
     tr.html(
-            "<td>" +item.user + "</td>" +
-            "<td>" +item.dep.name + "</td>"
+            "<td>" +item.id + "</td>" +
+            "<td>" +item.name + "</td>"
 
             );
     parent.append(tr);

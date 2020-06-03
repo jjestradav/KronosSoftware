@@ -227,12 +227,19 @@
 						<div class="row">
 
 
-
+						
 							<div class="col-5">
+							<th:block th:if="${accord.state.id ==2}"> 
 								<button type="button" class="btn btn-outline-success"
 									onclick='javascript:submitForm()' id="okButton">Guardar
 									Cambios</button>
+									</th:block>
 
+									<th:block th:if="${accord.state.id ==3}"> 
+								<a href="/"><button type="button" class="btn btn-outline-success"
+									 id="okButton">Guardar
+									Cambios</button></a>
+									</th:block>
 
 								<a href="/townHall/edit/newResponsables"><button
 										type="button" class="btn btn-outline-success"
@@ -309,8 +316,8 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal" onclick='javascript:cleanPdfForm()'>Cerrar</button>
-						<button type="button" class="btn btn-success"
-							onclick="javascript:uploadPdf()">Guardar Cambios</button>
+						 <button type="button" class="btn btn-success"
+							onclick="javascript:uploadPdf()">Guardar Cambios</button> 
 					</div>
 				</div>
 			</div>

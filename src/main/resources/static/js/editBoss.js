@@ -25,12 +25,15 @@ $(document).ready(()=>{
 
 function changeSelectUser(value){
 	
+	let state=parseInt(document.getElementById('state').value);
+	if(state===2 || state===3){
 	let userBtn=document.getElementById('userBtn');
 	console.log(userBtn.style)
 	if(value ==='nullOpt')
 		userBtn.style.visibility='hidden';
 	else
 		userBtn.style.visibility='';
+	}
 }
 
 async function JsontoString(){

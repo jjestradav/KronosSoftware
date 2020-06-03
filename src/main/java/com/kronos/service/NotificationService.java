@@ -96,6 +96,30 @@ public class NotificationService {
 	}
 	
 	
+	public List<Department> resposableDepartments(Accord acc) throws Exception{
+		Connection connection = jdbcTemplate.getDataSource().getConnection();
+		CallableStatement statement = connection.prepareCall("{call  resposableDepartments(?) }");
+		statement.setString(1, acc.getAccNumber());
+		
+		
+		// statement.registerOutParameter(1, new );
+		List<Department> result= new ArrayList<>();
+		ResultSet rs = statement.executeQuery();
+		
+		while(rs.next()) {
+		
+			Department dep= new Department(rs.getInt("DEP_ID"),rs.getString("DEP_NAME"));
+			result.add(dep);
+		}
+		
+		rs.close();
+		statement.close();
+		connection.close();
+		return result;
+	}
+	
+	
+	
 	public List<String> getResponsablesUserName(String accNumber) throws Exception{
 		Connection connection = jdbcTemplate.getDataSource().getConnection();
 		CallableStatement statement = connection.prepareCall("{call  getResponsablesUserName(?) }");

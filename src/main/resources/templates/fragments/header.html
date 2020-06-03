@@ -30,7 +30,9 @@
 						de Acuerdos</a> 
 						
 						<a th:if="${session.roleName != null and (session.roleName=='Secretaria de Alcaldia' or session.roleName=='superuser') }"class="dropdown-item" th:href="@{/townHall/list}">Lista
-						de Acuerdos</a> 
+						de Acuerdos</a>
+							<a th:if="${session.roleName != null and (session.roleName !='Secretaria de Alcaldia' and session.roleName!='Concejo Municipal') }"class="dropdown-item" th:href="@{/index}">Lista
+						de Acuerdos</a>  
 						<a th:if="${session.roleName != null and (session.roleName=='Concejo Municipal' or session.roleName=='superuser') }" class="dropdown-item" th:href="@{/accords/listDepart}">Lista
 						de Acuerdo por Departamentos</a>
 				</div></li>
